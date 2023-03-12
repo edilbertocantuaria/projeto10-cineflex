@@ -13,8 +13,8 @@ export default function App() {
         <BrowserRouter>
         <Routes>
             <Route path="/" element={<HomePage />}/> 
-            <Route path="/assentos" element={<SeatsPage/>} />
-            <Route path="/sessoes/:id" element={<SessionsPage />}/>
+            <Route path="/assentos/:idSessao" element={<SeatsPage/>} />
+            <Route path="/sessoes/:idFilme" element={<SessionsPage />}/>
             <Route path="/sucesso" element={<SuccessPage/>} />
         </Routes>
         </BrowserRouter>

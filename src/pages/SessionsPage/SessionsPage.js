@@ -5,28 +5,32 @@ import { Link, useParams } from "react-router-dom";
 
 
 export default function SessionsPage() {
-    const { id } = useParams()
-    const [sessionHour, setSessionHour] = useState();
+    const { idFilme } = useParams()
+    const [sessionHour, setSessionHour] = useState([]);
 
 
     useEffect(() => {
-        const request = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${id}/showtimes`);
+        const request = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilme}/showtimes`);
         request.then(response => {
             setSessionHour(response.data);
         })
 
     }, [])
-    console.log(sessionHour);
+
+    // console.log(sessionHour.days);
+
     return (
         <PageContainer>
             Selecione o horário
             <div>
-                {sessionHour.days.map(day => (
-                    <SessionContainer data-test="movie-day">
+                {sessionHour && sessionHour.days && sessionHour.days.map(day => (
+                    <SessionContainer key={day.id} data-test="movie-day" >
                         {day.weekday} -  {day.date}
-                        <ButtonsContainer>
+                        <ButtonsContainer >
                             {day.showtimes.map(time => (
-                                <button key={time.id} data-test="showtime">{time.name}</button>
+                                <Link to={`/assentos/${time.id}`} >
+                                    <button key={time.id} data-test="showtime">{time.name}</button>
+                                </Link>
                             ))}
                         </ButtonsContainer>
                     </SessionContainer>
@@ -34,18 +38,21 @@ export default function SessionsPage() {
                 )}
             </div>
 
-            <FooterContainer data-test="footer">
+            {sessionHour && (
+                <FooterContainer data-test="footer">
                     <div>
-                    <img src={sessionHour.posterURL} alt={sessionHour.title}/>
-                </div>
-                <div>
-                    <p>{sessionHour.title}</p>
-                </div>
-            </FooterContainer>
+                        <img src={sessionHour.posterURL} alt={sessionHour.title} />
+                    </div>
+                    <div>
+                        <p>{sessionHour.title}</p>
+                    </div>
+                </FooterContainer>
+            )}
 
         </PageContainer>
     )
 }
+
 
 const PageContainer = styled.div`
             display: flex;
@@ -73,12 +80,23 @@ const SessionContainer = styled.div`
 const ButtonsContainer = styled.div`
             display: flex;
             flex-direction: row;
-            margin: 20px 0;
+            margin: 20px;
+            gap: 20px;
             button {
                 margin - right: 20px;
+                text-decoration: none;
     }
             a {
                 text - decoration: none;
+                &:link, &:visited {
+                    color: none;
+                    text-decoration: none;
+                    cursor: none;
+                }
+    
+                &:link:active, &:visited:active {
+                    color: none;
+                }
     }
             `
 const FooterContainer = styled.div`

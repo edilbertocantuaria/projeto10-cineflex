@@ -10,11 +10,11 @@ export default function HomePage() {
         const request = axios.get("https://mock-api.driven.com.br/api/v8/cineflex/movies");
         request.then(response => {
             setMovies(response.data);
-            // console.log(response.data);
         })
 
     }, [])
 
+    // console.log(movies)
 
     return (
         <PageContainer>
