@@ -28,25 +28,27 @@ export default function SeatsPage() {
                 {seatsSession && seatsSession.seats && seatsSession.seats.map(seat => (
                     <SeatItem key={seat.id} data-test="seat" >
                         <Link to={`/sucesso`} >
-                             <div className={seat.isAvailable}>{seat.name} </div>
+                            <div className={seat.isAvailable}>{seat.name} </div>
                         </Link>
                     </SeatItem>
 
                 )
-                )}  
+                )}
             </SeatsContainer>
 
             <CaptionContainer>
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircleSelected />
                     Selecionado
                 </CaptionItem>
+
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircleAvailable />
                     Disponível
                 </CaptionItem>
+
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircleUnavailable />
                     Indisponível
                 </CaptionItem>
             </CaptionContainer>
@@ -64,18 +66,18 @@ export default function SeatsPage() {
 
             {seatsSession && seatsSession.movie && (
                 <FooterContainer data-test="footer">
-                
-                <div>
-                    <img src={seatsSession.movie.posterURL} alt={seatsSession.movie.title} />
-                </div>
-                <div>
-                    <p>{seatsSession.movie.title}</p>
-                    <p>{seatsSession.name}</p>
-                </div>
-            </FooterContainer>
+
+                    <div>
+                        <img src={seatsSession.movie.posterURL} alt={seatsSession.movie.title} />
+                    </div>
+                    <div>
+                        <p>{seatsSession.movie.title}</p>
+                        <p>{seatsSession.name}</p>
+                    </div>
+                </FooterContainer>
             )
             }
-                
+
 
         </PageContainer>
     )
@@ -94,7 +96,9 @@ const PageContainer = styled.div`
                 padding-top: 70px;
                 `
 const SeatsContainer = styled.div`
-                width: 330px;
+
+                // width: 330px;
+                width: 32vw;
                 display: flex;
                 flex-direction: row;
                 flex-wrap: wrap;
@@ -102,6 +106,7 @@ const SeatsContainer = styled.div`
                 justify-content: center;
                 margin-top: 20px;
             a {
+                color: #000000;
                 text - decoration: none;
                 &:link, &:visited {
                     color: none;
@@ -135,9 +140,36 @@ const CaptionContainer = styled.div`
                 justify-content: space-between;
                 margin: 20px;
                 `
-const CaptionCircle = styled.div`
-                border: 1px solid blue;         // Essa cor deve mudar
-                background-color: lightblue;    // Essa cor deve mudar
+const CaptionCircleSelected = styled.div`
+//Bolinha das legendas
+                border: 1px solid #0E7D71;         // Essa cor deve mudar
+                background-color: #1AAE9E;    // Essa cor deve mudar
+                height: 25px;
+                width: 25px;
+                border-radius: 25px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 5px 3px;
+                `
+
+const CaptionCircleAvailable = styled.div`
+//Bolinha das legendas
+                border: 1px solid #7B8B99;         // Essa cor deve mudar
+                background-color: #C3CFD9;    // Essa cor deve mudar
+                height: 25px;
+                width: 25px;
+                border-radius: 25px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 5px 3px;
+                `
+
+const CaptionCircleUnavailable = styled.div`
+//Bolinha das legendas
+                border: 1px solid #F7C52B;         // Essa cor deve mudar
+                background-color: #FBE192;    // Essa cor deve mudar
                 height: 25px;
                 width: 25px;
                 border-radius: 25px;
@@ -153,12 +185,17 @@ const CaptionItem = styled.div`
                 font-size: 12px;
                 `
 const SeatItem = styled.div`
-                border: 1px solid blue;         // Essa cor deve mudar
-                background-color: lightblue;    // Essa cor deve mudar
-                height: 25px;
-                width: 25px;
+//bolinha dos assentos
+                border: 1px solid #808F9D;         // Essa cor deve mudar
+                background-color: #C3CFD9;    // Essa cor deve mudar
+                height: 35px;
+                width: 35px;
                 border-radius: 25px;
+                
                 font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 400;
+                color: #000000;
                 font-size: 11px;
                 display: flex;
                 align-items: center;
