@@ -11,11 +11,10 @@ export default function App() {
         <NavContainer>CINEFLEX</NavContainer>
  
         <BrowserRouter>
-        <HomePage />
         <Routes>
-            <Route path="Rota" element={<HomePage />}/> 
+            <Route path="/" element={<HomePage />}/> 
             <Route path="/assentos" element={<SeatsPage/>} />
-            <Route path="/sessoes" element={<SessionsPage />}/>
+            <Route path="/sessoes/:id" element={<SessionsPage />}/>
             <Route path="/sucesso" element={<SuccessPage/>} />
         </Routes>
         </BrowserRouter>
