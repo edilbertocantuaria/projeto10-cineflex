@@ -12,6 +12,7 @@ export default function SeatsPage() {
                 <SeatItem>03</SeatItem>
                 <SeatItem>04</SeatItem>
                 <SeatItem>05</SeatItem>
+                <SeatItem>T</SeatItem>
             </SeatsContainer>
 
             <CaptionContainer>

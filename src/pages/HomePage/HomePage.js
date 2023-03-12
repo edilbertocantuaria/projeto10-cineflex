@@ -1,18 +1,19 @@
 import styled from "styled-components"
 import axios from "axios"
-import { useState, useEffect} from "react"
+import { useState, useEffect } from "react"
+import { Link } from "react-router-dom";
 
 export default function HomePage() {
-const [movies, setMovies]= useState([]);
+    const [movies, setMovies] = useState([]);
 
-useEffect(()=>{
-    const request = axios.get("https://mock-api.driven.com.br/api/v8/cineflex/movies");
-    request.then(response => {
-        setMovies(response.data);
-        console.log(movies);
-    })
+    useEffect(() => {
+        const request = axios.get("https://mock-api.driven.com.br/api/v8/cineflex/movies");
+        request.then(response => {
+            setMovies(response.data);
+            console.log(movies);
+        })
 
-},[])
+    }, [])
 
 
     return (
@@ -20,9 +21,10 @@ useEffect(()=>{
             Selecione o filme
 
             <ListContainer>
-                
-                    {movies.map(movie => <MovieContainer><img src={movie.posterURL} alt="poster" key={movie.id}/> </MovieContainer>)}
-               
+
+                {movies.map(movie => 
+                <MovieContainer><Link to="/sessoes" ><img src={movie.posterURL} alt={movie.title} key={movie.id} data-test="movie" /></Link></MovieContainer>)}
+
             </ListContainer>
 
         </PageContainer>
@@ -41,8 +43,11 @@ const PageContainer = styled.div`
     padding-top: 70px;
 `
 const ListContainer = styled.div`
-    width: 330px;
+    // width: 330px;
+    width:80%;
     display: flex;
+    align-items: center;
+    justify-content: center;
     flex-wrap: wrap;
     flex-direction: row;
     padding: 10px;
