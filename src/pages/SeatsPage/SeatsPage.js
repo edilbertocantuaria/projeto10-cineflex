@@ -1,9 +1,8 @@
 import styled from "styled-components"
 import axios from "axios"
 import { useState, useEffect } from "react"
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import InputMask from "react-input-mask";
-
 
 export default function SeatsPage() {
     const { idSessao } = useParams()
@@ -50,11 +49,11 @@ export default function SeatsPage() {
     function sendRequest(event) {
         event.preventDefault(); // impede o redirecionamento
 
-        console.log({
-            ids: idSelectedSeats,
-            name: name,
-            cpf: CPF
-        })
+        // console.log({
+        //     ids: idSelectedSeats,
+        //     name: name,
+        //     cpf: CPF
+        // })
         const request = axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many",
             {
                 ids: idSelectedSeats,
@@ -66,7 +65,19 @@ export default function SeatsPage() {
             console.log(response.data);
         })
 
-        request.then(() => navigate("/sucesso"))
+        request.then(() => navigate("/sucesso", {
+            state: {
+                movie: seatsSession.movie.title,
+                date: seatsSession.day.date,
+                time: seatsSession.name,
+                seats: idSelectedSeats.map(id => seatsSession.seats.find(seat => seat.id === id)),
+                name: name,
+                cpf: CPF
+            }
+        })
+
+        )
+
 
         request.catch(error => {
             console.log(error);
@@ -118,12 +129,12 @@ export default function SeatsPage() {
 
                     CPF do Comprador:
                     <StyledInputMode
-                     type="text" 
-                     value={CPF} 
-                     required 
-                     placeholder="Digite seu CPF..." 
-                     mask="999.999.999-99"
-                     data-test="client-cpf" onChange={e => setCPF(e.target.value)} />
+                        type="text"
+                        value={CPF}
+                        required
+                        placeholder="Digite seu CPF..."
+                        mask="999.999.999-99"
+                        data-test="client-cpf" onChange={e => setCPF(e.target.value)} />
 
 
                     <button type="submit" data-test="book-seat-btn">Reservar Assento(s)</button>
@@ -213,7 +224,7 @@ const FormContainer = styled.div`
         }
                 `
 const StyledInputMode = styled(InputMask)``
- 
+
 const CaptionContainer = styled.div`
                 display: flex;
                 flex-direction: row;
