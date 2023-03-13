@@ -90,11 +90,13 @@ export default function SeatsPage() {
     return (
         <PageContainer>
             <BackArrow data-test="go-home-header-btn">
-                <Link to={`/`}>
+                
                     <img
                         src={leftArrow}
-                        alt="backHome" />
-                </Link>
+                        alt="backHome" 
+                        onClick={()=>navigate(-1)}
+                        />
+
             </BackArrow>
 
             Selecione o(s) assento(s)
