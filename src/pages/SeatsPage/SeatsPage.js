@@ -6,8 +6,8 @@ import { Link, useParams } from "react-router-dom";
 export default function SeatsPage() {
     const { idSessao } = useParams()
     const [seatsSession, setSeatsSession] = useState([]);
-    // const [backgroundColor, setBackgroundColor] = useState("");
-    // const [borderColor, setBorderColor] = useState("");
+    // const [selectedColor, setSelectedColor] = useState(false);
+    // const [selectedBorderColor, setSelectedBorderColor] = useState(false);
 
     useEffect(() => {
         const request = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`);
@@ -23,10 +23,16 @@ export default function SeatsPage() {
 
     function selectedSeat(i){
         console.log(`Deu certo! Estou selecionando a poltrona ${i+1}`)
-        console.log(seatsSession.seats[i])
-        
-        // const backgroundColor="#1AAE9E";
-        // const borderColor="#0E7D71";
+        console.log(seatsSession.seats[i]);
+        console.log(seatsSession.seats[i].isAvailable);
+
+        if (!seatsSession.seats[i].isAvailable){
+            alert("Esse assento não está disponível");
+        } else {
+            alert("Esse assento está disponível")
+        }
+        // setSelectedColor("#1AAE9E");
+        // setSelectedBorderColor("#0E7D71");
 
         // const selectedSeatColorFill="#1AAE9E";
         // setBackgroundColor(selectedSeatColorFill);
