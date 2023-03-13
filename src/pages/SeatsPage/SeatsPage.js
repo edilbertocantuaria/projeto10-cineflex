@@ -6,6 +6,8 @@ import { Link, useParams } from "react-router-dom";
 export default function SeatsPage() {
     const { idSessao } = useParams()
     const [seatsSession, setSeatsSession] = useState([]);
+    // const [backgroundColor, setBackgroundColor] = useState("");
+    // const [borderColor, setBorderColor] = useState("");
 
     useEffect(() => {
         const request = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`);
@@ -16,8 +18,22 @@ export default function SeatsPage() {
         })
 
     }, [])
-    // console.log(seatsSession);
+    console.log(seatsSession);
     // console.log(seatsSession.seats);
+
+    function selectedSeat(i){
+        console.log(`Deu certo! Estou selecionando a poltrona ${i+1}`)
+        console.log(seatsSession.seats[i])
+        
+        // const backgroundColor="#1AAE9E";
+        // const borderColor="#0E7D71";
+
+        // const selectedSeatColorFill="#1AAE9E";
+        // setBackgroundColor(selectedSeatColorFill);
+        // const selectedSeatColorStroke="#0E7D71";
+        // setBorderColor(selectedSeatColorStroke);
+    }
+
 
     return (
         <PageContainer>
@@ -25,9 +41,12 @@ export default function SeatsPage() {
 
             <SeatsContainer>
 
-                {seatsSession && seatsSession.seats && seatsSession.seats.map(seat => (
-                    <SeatItem key={seat.id} data-test="seat" >
-                        <div className={seat.isAvailable}>{seat.name} </div>
+                {seatsSession && seatsSession.seats && seatsSession.seats.map((seat ,i)=> (
+                    <SeatItem key={seat.id} data-test="seat" 
+                    backgroundColor={seat.isAvailable? "#C3CFD9" : "#FBE192"}
+                    borderColor={seat.isAvailable? "#808F9D":"#F7C52B"}
+                    >
+                        <div onClick={() => selectedSeat(i)}>{seat.name} </div>
                     </SeatItem>
 
                 )
@@ -70,7 +89,7 @@ export default function SeatsPage() {
                     </div>
                     <div>
                         <p>{seatsSession.movie.title}</p>
-                        <p>{seatsSession.name}</p>
+                        <p>{seatsSession.day.weekday} - {seatsSession.name}</p>
                     </div>
                 </FooterContainer>
             )
@@ -142,6 +161,7 @@ const FormContainer = styled.div`
             color: none;
         }
                 `
+
 const CaptionContainer = styled.div`
                 display: flex;
                 flex-direction: row;
@@ -161,7 +181,6 @@ const CaptionCircleSelected = styled.div`
                 justify-content: center;
                 margin: 5px 3px;
                 `
-
 const CaptionCircleAvailable = styled.div`
 //Bolinha das legendas
                 border: 1px solid #7B8B99;         // Essa cor deve mudar
@@ -195,8 +214,9 @@ const CaptionItem = styled.div`
                 `
 const SeatItem = styled.div`
 //bolinha dos assentos
-                border: 1px solid #808F9D;         // Essa cor deve mudar
-                background-color: #C3CFD9;    // Essa cor deve mudar
+                border: 1px solid; 
+                border-color: ${props => props.borderColor};         // Essa cor deve mudar
+                background-color: ${props => props.backgroundColor};    // Essa cor deve mudar
                 height: 35px;
                 width: 35px;
                 border-radius: 25px;
