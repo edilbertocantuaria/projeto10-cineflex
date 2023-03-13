@@ -2,6 +2,7 @@ import styled from "styled-components"
 import axios from "axios"
 import { useState, useEffect } from "react"
 import { Link, useParams } from "react-router-dom";
+import leftArrow from "../../assets/leftArrow.png"
 
 
 export default function SessionsPage() {
@@ -21,6 +22,14 @@ export default function SessionsPage() {
 
     return (
         <PageContainer>
+            <BackArrow data-test="go-home-header-btn">
+                <Link to="/">
+                    <img
+                        src={leftArrow}
+                        alt="backHome" />
+                </Link>
+            </BackArrow>
+            
             Selecione o horário
             <div>
                 {sessionHour && sessionHour.days && sessionHour.days.map(day => (
@@ -29,7 +38,7 @@ export default function SessionsPage() {
                         <ButtonsContainer >
                             {day.showtimes.map(time => (
                                 <Link to={`/assentos/${time.id}`} key={time.id} >
-                                    <button  data-test="showtime">{time.name}</button>
+                                    <button data-test="showtime">{time.name}</button>
                                 </Link>
                             ))}
                         </ButtonsContainer>
@@ -137,3 +146,15 @@ const FooterContainer = styled.div`
         }
     }
             `
+
+const BackArrow = styled.div`
+img{
+    width: 30px;
+    heigth: 30px;
+
+    position: absolute;
+    top: 20px;
+    left: 10px;
+}
+
+`

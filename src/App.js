@@ -8,7 +8,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 export default function App() {
     return (
         <>
-        <NavContainer>CINEFLEX</NavContainer>
+        <NavContainer>
+            CINEFLEX
+            </NavContainer>
  
         <BrowserRouter>
         <Routes>

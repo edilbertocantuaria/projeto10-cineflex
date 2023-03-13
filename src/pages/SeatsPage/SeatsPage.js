@@ -1,7 +1,8 @@
 import styled from "styled-components"
 import axios from "axios"
 import { useState, useEffect } from "react"
-import { useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import leftArrow from "../../assets/leftArrow.png"
 import InputMask from "react-input-mask";
 
 export default function SeatsPage() {
@@ -86,6 +87,14 @@ export default function SeatsPage() {
 
     return (
         <PageContainer>
+            <BackArrow data-test="go-home-header-btn">
+                <Link to="/">
+                    <img
+                        src={leftArrow}
+                        alt="backHome" />
+                </Link>
+            </BackArrow>
+
             Selecione o(s) assento(s)
 
             <SeatsContainer>
@@ -134,8 +143,8 @@ export default function SeatsPage() {
                         required
                         placeholder="Digite seu CPF..."
                         mask="999.999.999-99"
-                        data-test="client-cpf" onChange={e => setCPF(e.target.value)} 
-                        />
+                        data-test="client-cpf" onChange={e => setCPF(e.target.value)}
+                    />
 
 
                     <button type="submit" data-test="book-seat-btn">Reservar Assento(s)</button>
@@ -333,3 +342,14 @@ const FooterContainer = styled.div`
         }
     }
                 `
+const BackArrow = styled.div`
+img{
+    width: 30px;
+    heigth: 30px;
+
+    position: absolute;
+    top: 20px;
+    left: 10px;
+}
+
+`
