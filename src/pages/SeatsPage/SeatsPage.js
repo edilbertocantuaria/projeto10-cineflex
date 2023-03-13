@@ -6,8 +6,9 @@ import { Link, useParams } from "react-router-dom";
 export default function SeatsPage() {
     const { idSessao } = useParams()
     const [seatsSession, setSeatsSession] = useState([]);
-    // const [selectedColor, setSelectedColor] = useState(false);
-    // const [selectedBorderColor, setSelectedBorderColor] = useState(false);
+    const [selectedSeatIndex, setSelectedSeatIndex] = useState([])
+    // const [selectedColor, setSelectedColor] = useState(null);
+    // const [selectedBorderColor, setSelectedBorderColor] = useState(null);
 
     useEffect(() => {
         const request = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`);
@@ -18,26 +19,22 @@ export default function SeatsPage() {
         })
 
     }, [])
-    console.log(seatsSession);
+    // console.log(seatsSession);
     // console.log(seatsSession.seats);
 
-    function selectedSeat(i){
-        console.log(`Deu certo! Estou selecionando a poltrona ${i+1}`)
-        console.log(seatsSession.seats[i]);
-        console.log(seatsSession.seats[i].isAvailable);
-
-        if (!seatsSession.seats[i].isAvailable){
+    function selectedSeat(i) {
+        if (!seatsSession.seats[i].isAvailable) {
             alert("Esse assento não está disponível");
         } else {
-            alert("Esse assento está disponível")
+                if (selectedSeatIndex.includes(i)){
+                    setSelectedSeatIndex(
+                        selectedSeatIndex.filter(index => index !== i)
+                    );
+                } else {
+                    setSelectedSeatIndex([...selectedSeatIndex,i]);
+                }
+            
         }
-        // setSelectedColor("#1AAE9E");
-        // setSelectedBorderColor("#0E7D71");
-
-        // const selectedSeatColorFill="#1AAE9E";
-        // setBackgroundColor(selectedSeatColorFill);
-        // const selectedSeatColorStroke="#0E7D71";
-        // setBorderColor(selectedSeatColorStroke);
     }
 
 
@@ -47,16 +44,19 @@ export default function SeatsPage() {
 
             <SeatsContainer>
 
-                {seatsSession && seatsSession.seats && seatsSession.seats.map((seat ,i)=> (
-                    <SeatItem key={seat.id} data-test="seat" 
-                    backgroundColor={seat.isAvailable? "#C3CFD9" : "#FBE192"}
-                    borderColor={seat.isAvailable? "#808F9D":"#F7C52B"}
-                    >
-                        <div onClick={() => selectedSeat(i)}>{seat.name} </div>
-                    </SeatItem>
+                {seatsSession && seatsSession.seats && seatsSession.seats.map((seat, i) => {
+                    const backgroundColor = selectedSeatIndex.includes(i)? "#1AAE9E" : seat.isAvailable ? "#C3CFD9" : "#FBE192";
+                    const borderColor = selectedSeatIndex.includes(i)? "#0E7D71" : seat.isAvailable ? "#808F9D" : "#F7C52B";
+                    return (
+                        <SeatItem key={seat.id} data-test="seat"
+                            backgroundColor={backgroundColor}
+                            borderColor={borderColor}
+                        >
+                            <div onClick={() => selectedSeat(i)}>{seat.name} </div>
+                        </SeatItem>
+                    )
+                })}
 
-                )
-                )}
             </SeatsContainer>
 
             <CaptionContainer>
