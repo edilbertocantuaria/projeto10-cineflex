@@ -27,9 +27,7 @@ export default function SeatsPage() {
 
                 {seatsSession && seatsSession.seats && seatsSession.seats.map(seat => (
                     <SeatItem key={seat.id} data-test="seat" >
-                        <Link to={`/sucesso`} >
-                            <div className={seat.isAvailable}>{seat.name} </div>
-                        </Link>
+                        <div className={seat.isAvailable}>{seat.name} </div>
                     </SeatItem>
 
                 )
@@ -60,7 +58,7 @@ export default function SeatsPage() {
                 CPF do Comprador:
                 <input placeholder="Digite seu CPF..." data-test="client-cpf" />
 
-                <button data-test="book-seat-btn">Reservar Assento(s)</button>
+                <Link to={`/sucesso`} ><button data-test="book-seat-btn">Reservar Assento(s)</button></Link>
             </FormContainer>
 
 
@@ -132,6 +130,17 @@ const FormContainer = styled.div`
                 input {
                     width: calc(100vw - 60px);
     }
+        a {
+        text - decoration: none;
+        &:link, &:visited {
+            color: none;
+            text-decoration: none;
+            cursor: none;
+        }
+
+        &:link:active, &:visited:active {
+            color: none;
+        }
                 `
 const CaptionContainer = styled.div`
                 display: flex;
