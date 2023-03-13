@@ -7,6 +7,8 @@ import InputMask from "react-input-mask";
 
 export default function SeatsPage() {
     const { idSessao } = useParams()
+    const { idFilme } = useParams()
+
     const [seatsSession, setSeatsSession] = useState([]);
     const [selectedSeatIndex, setSelectedSeatIndex] = useState([])
     const [idSelectedSeats, setIdSelectedSeats] = useState([]);
@@ -88,7 +90,7 @@ export default function SeatsPage() {
     return (
         <PageContainer>
             <BackArrow data-test="go-home-header-btn">
-                <Link to="/">
+                <Link to={`/`}>
                     <img
                         src={leftArrow}
                         alt="backHome" />
