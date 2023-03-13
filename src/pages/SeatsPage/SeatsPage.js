@@ -2,6 +2,7 @@ import styled from "styled-components"
 import axios from "axios"
 import { useState, useEffect } from "react"
 import { Link, useParams, useNavigate } from "react-router-dom";
+import InputMask from "react-input-mask";
 
 
 export default function SeatsPage() {
@@ -48,7 +49,6 @@ export default function SeatsPage() {
 
     function sendRequest(event) {
         event.preventDefault(); // impede o redirecionamento
-     
 
         console.log({
             ids: idSelectedSeats,
@@ -65,6 +65,7 @@ export default function SeatsPage() {
         request.then(response => {
             console.log(response.data);
         })
+
         request.then(() => navigate("/sucesso"))
 
         request.catch(error => {
@@ -116,7 +117,13 @@ export default function SeatsPage() {
                     <input type="text" value={name} required placeholder="Digite seu nome..." data-test="client-name" onChange={e => setName(e.target.value)} />
 
                     CPF do Comprador:
-                    <input type="number" value={CPF} required placeholder="Digite seu CPF..." data-test="client-cpf" onChange={e => setCPF(e.target.value)} />
+                    <StyledInputMode
+                     type="text" 
+                     value={CPF} 
+                     required 
+                     placeholder="Digite seu CPF..." 
+                     mask="999.999.999-99"
+                     data-test="client-cpf" onChange={e => setCPF(e.target.value)} />
 
 
                     <button type="submit" data-test="book-seat-btn">Reservar Assento(s)</button>
@@ -192,6 +199,7 @@ const FormContainer = styled.div`
                 input {
                     width: calc(100vw - 60px);
     }
+
         a {
         text - decoration: none;
         &:link, &:visited {
@@ -204,7 +212,8 @@ const FormContainer = styled.div`
             color: none;
         }
                 `
-
+const StyledInputMode = styled(InputMask)``
+ 
 const CaptionContainer = styled.div`
                 display: flex;
                 flex-direction: row;
