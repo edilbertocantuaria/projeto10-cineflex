@@ -134,7 +134,8 @@ export default function SeatsPage() {
                         required
                         placeholder="Digite seu CPF..."
                         mask="999.999.999-99"
-                        data-test="client-cpf" onChange={e => setCPF(e.target.value)} />
+                        data-test="client-cpf" onChange={e => setCPF(e.target.value)} 
+                        />
 
 
                     <button type="submit" data-test="book-seat-btn">Reservar Assento(s)</button>

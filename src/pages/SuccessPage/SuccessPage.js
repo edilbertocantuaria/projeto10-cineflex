@@ -1,13 +1,11 @@
 import styled from "styled-components"
-import axios from "axios"
-import { useState, useEffect } from "react"
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 export default function SuccessPage() {
     const location = useLocation();
     const bookingSession = location.state;
-    console.log(bookingSession);
+    // console.log(bookingSession);
 
     return (
         <PageContainer>
@@ -39,7 +37,7 @@ export default function SuccessPage() {
             )}
 
 
-            <Link to={`/`} ><button data-test="book-seat-btn" >Voltar para Home</button></Link>
+            <Link to={`/`}><button data-test="go-home-btn" >Voltar para Home</button></Link>
         </PageContainer>
     )
 }
