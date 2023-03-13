@@ -7,15 +7,15 @@ export default function SeatsPage() {
     const { idSessao } = useParams()
     const [seatsSession, setSeatsSession] = useState([]);
     const [selectedSeatIndex, setSelectedSeatIndex] = useState([])
-    // const [selectedColor, setSelectedColor] = useState(null);
-    // const [selectedBorderColor, setSelectedBorderColor] = useState(null);
+    const [idSelectedSeats, setIdSelectedSeats] = useState([]);
+
+    const [name, setName] =useState("");
+    const [CPF, setCPF] = useState("");
 
     useEffect(() => {
         const request = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`);
         request.then(response => {
-            console.log(response.data);
             setSeatsSession(response.data);
-
         })
 
     }, [])
@@ -24,19 +24,42 @@ export default function SeatsPage() {
 
     function selectedSeat(i) {
         if (!seatsSession.seats[i].isAvailable) {
+
             alert("Esse assento não está disponível");
         } else {
-                if (selectedSeatIndex.includes(i)){
-                    setSelectedSeatIndex(
-                        selectedSeatIndex.filter(index => index !== i)
-                    );
-                } else {
-                    setSelectedSeatIndex([...selectedSeatIndex,i]);
-                }
-            
+            if (selectedSeatIndex.includes(i)) {
+
+                setIdSelectedSeats(
+                    idSelectedSeats.filter(index => index !== i)
+                );
+                setSelectedSeatIndex(
+                    selectedSeatIndex.filter(index => index !== i)
+                );
+
+            } else {
+                setIdSelectedSeats([...idSelectedSeats, seatsSession.seats[i].id]);
+                setSelectedSeatIndex([...selectedSeatIndex, i]);
+            }
+
         }
     }
 
+    function sendRequest() {
+        const request = axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many",
+            {
+                ids: idSelectedSeats,
+                name: name,
+                cpf: CPF
+            })
+
+        request.then(response => {
+            console.log(response.data);
+        })
+
+        request.catch(error => {
+            console.log(error);
+        });
+    }
 
     return (
         <PageContainer>
@@ -45,8 +68,8 @@ export default function SeatsPage() {
             <SeatsContainer>
 
                 {seatsSession && seatsSession.seats && seatsSession.seats.map((seat, i) => {
-                    const backgroundColor = selectedSeatIndex.includes(i)? "#1AAE9E" : seat.isAvailable ? "#C3CFD9" : "#FBE192";
-                    const borderColor = selectedSeatIndex.includes(i)? "#0E7D71" : seat.isAvailable ? "#808F9D" : "#F7C52B";
+                    const backgroundColor = selectedSeatIndex.includes(i) ? "#1AAE9E" : seat.isAvailable ? "#C3CFD9" : "#FBE192";
+                    const borderColor = selectedSeatIndex.includes(i) ? "#0E7D71" : seat.isAvailable ? "#808F9D" : "#F7C52B";
                     return (
                         <SeatItem key={seat.id} data-test="seat"
                             backgroundColor={backgroundColor}
@@ -77,13 +100,18 @@ export default function SeatsPage() {
             </CaptionContainer>
 
             <FormContainer>
-                Nome do Comprador:
-                <input placeholder="Digite seu nome..." data-test="client-name" />
 
-                CPF do Comprador:
-                <input placeholder="Digite seu CPF..." data-test="client-cpf" />
 
-                <Link to={`/sucesso`} ><button data-test="book-seat-btn">Reservar Assento(s)</button></Link>
+                <form onSubmit={sendRequest()}>
+                    Nome do Comprador:
+                    <input type="text" required placeholder="Digite seu nome..." data-test="client-name" onChange={e => setName(e.target.value)} />
+
+                    CPF do Comprador:
+                    <input type="number" required placeholder="Digite seu CPF..." data-test="client-cpf" onChange={e => setCPF(e.target.value)}/>
+
+
+                    <Link to={`/sucesso`} ><button type="submit" data-test="book-seat-btn">Reservar Assento(s)</button></Link>
+                </form>
             </FormContainer>
 
 
